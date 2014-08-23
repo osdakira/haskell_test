@@ -6,12 +6,13 @@ qsort :: Ord a => [a] -> [a]
 qsort [] = []
 qsort (x:xs) = qsort larger ++ [x] ++ qsort smaller
   where
-    smaller = [a | a <- xs, a <= x]
-    larger  = [b | b <- xs, b > x]
+    smaller = [a | a <- xs, a > x]
+    -- larger  = [b | b <- xs, b <= x]
+    larger  = [b | b <- xs, b < x]
 
 main::IO()
 main = do
-  print (qsort [3,5,1,4,2])
+  print (qsort [2,2,3,1,1])
 
 -- qsort [] = []
 -- qsort (x:xs) = qsort smaller ++ [x] ++ qsort larger
