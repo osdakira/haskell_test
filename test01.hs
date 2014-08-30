@@ -33,7 +33,12 @@ main::IO()
 --   print $ safetail [1, 2, 3] == [2, 3]
 
 -- c. パターンマッチ
-
+-- safetail :: [a] -> [a]
+-- safetail [] = []
+-- safetail xs = tail xs
+-- main = do
+--   print $ null (safetail [])
+--   print $ safetail [1, 2, 3] == [2, 3]
 
 
 -- ヒント:ライブラリ関数 null を利用せよ。
@@ -41,14 +46,48 @@ main::IO()
 
 -- 3. 論理積演算子 ∧ と同様に、パターンマッチを用いて、論理和演算子 ∨ を
 --   四通りの方法で定義せよ。
--- 4. 以下のように定義される論理積演算子をパターンマッチではなく条件式
--- 4.7 この章の参考文献 43
--- ￼￼長田 晃 <osd.akira@gmail.com>, 20131206-6D38A552
---                               44 第4章 関数定義 を用いて再定義せよ。
---                               True ∧ True = True ∧ = False
---                                                      5. 以下についても同様にせよ。必要になる条件式の個数が異なることに 注意。
---                                                      True ∧ b = b False ∧ ￼ = False
---                                                                               6. カリー化された関数multxyz=x∗y∗zは、λ式を用いるとどのよう に表現できるか示せ。
+-- (||) :: Bool -> Bool -> Bool
+-- True  || True  = True
+-- True  || False = True
+-- False || True  = True
+-- False || False = False
+
+-- (||) :: Bool -> Bool -> Bool
+-- False || False = False
+-- _  || _  = True
+
+-- main = do
+--   print $ True Main.|| True
+--   print $ True Main.|| False
+--   print $ False Main.|| True
+--   print $ False Main.|| False
+
+
+-- 4. 以下のように定義される論理積演算子をパターンマッチではなく条件式を用いて再定義せよ。
+      -- True ∧ True = True
+      -- _ ∧ _ = False
+
+-- (&&) :: Bool -> Bool -> Bool
+-- (&&) x y = if x == False then False else
+--              if y == False then False else True
+
+-- main = do
+--   print $ ((Main.&& True) True) == True
+--   print $ ((Main.&& True) False) == False
+
+-- 5. 以下についても同様にせよ。必要になる条件式の個数が異なることに 注意。
+-- True ∧ b = b
+-- False ∧ ￼ = False
+(&&) :: Bool -> a -> a
+(&&) x y = if x == False then False else y
+
+main = do
+  print $ (True Main.&& 1) == 1
+  print $ (True Main.&& False) == False
+  print $ (False Main.&& 1) == False
+  print $ (False Main.&& True) == False
+
+-- 6. カリー化された関数multxyz=x∗y∗zは、λ式を用いるとどのよう に表現できるか示せ。
 
 
 -- signum n | n < 0     = -1
