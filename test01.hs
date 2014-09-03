@@ -92,7 +92,10 @@ main::IO()
 --   print $ False Main.&& True == False
 
 
--- 6. カリー化された関数multxyz=x∗y∗zは、λ式を用いるとどのよう に表現できるか示せ。
+-- 6. カリー化された関数mult x y z = x ∗ y ∗ zは、λ式を用いるとどのよう に表現できるか示せ。
+multi = \ x -> (\ y -> (\ z -> x * y * z))
+main = do
+  print $ multi 2 3 4
 
 
 -- signum n | n < 0     = -1
