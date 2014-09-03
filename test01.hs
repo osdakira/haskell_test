@@ -78,14 +78,19 @@ main::IO()
 -- 5. 以下についても同様にせよ。必要になる条件式の個数が異なることに 注意。
 -- True ∧ b = b
 -- False ∧ ￼ = False
-(&&) :: Bool -> a -> a
-(&&) x y = if x == False then False else y
 
-main = do
-  print $ (True Main.&& 1) == 1
-  print $ (True Main.&& False) == False
-  print $ (False Main.&& 1) == False
-  print $ (False Main.&& True) == False
+
+------------------------
+-- -- TODO 分からない --
+------------------------
+-- (&&) :: forall a. a => Bool -> a -> a
+-- (&&) x y = if x == False then False else y
+-- main = do
+--   print $ True Main.&& 1 == 1
+--   print $ True Main.&& False == False
+--   print $ False Main.&& 1 == False
+--   print $ False Main.&& True == False
+
 
 -- 6. カリー化された関数multxyz=x∗y∗zは、λ式を用いるとどのよう に表現できるか示せ。
 
