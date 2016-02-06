@@ -1,6 +1,9 @@
 -- runhashkell test01.hs
-module Main where
-main::IO()
+main =
+    print "Hello, World!"
+
+-- module Main where
+-- main::IO()
 
 -- 4.8 練習問題
 -- 1. ライブラリ関数を用いて、偶数の長さを持つリストを半分ずつに分割する
@@ -93,9 +96,9 @@ main::IO()
 
 
 -- 6. カリー化された関数mult x y z = x ∗ y ∗ zは、λ式を用いるとどのよう に表現できるか示せ。
-multi = \ x -> (\ y -> (\ z -> x * y * z))
-main = do
-  print $ multi 2 3 4
+-- multi = \ x -> (\ y -> (\ z -> x * y * z))
+-- main = do
+--   print $ multi 2 3 4
 
 
 -- signum n | n < 0     = -1
@@ -159,13 +162,6 @@ main = do
   -- Prelude> :t twice
   -- twice :: (t -> t) -> t -> t
 
-
-
-
-
-
-
-
 --   ヒント:関数定義に多重定義された演算子が使われている場合、クラス制
 --   約を記述すべきことに注意せよ。
 -- 3. 上記二つの問題の答えを Hugs を使って確かめよ。
@@ -182,8 +178,6 @@ main = do
 -- main = do
 --   print (my_last [1,2,3,4,5] == 5)
 --   print (my_last2 [1,2,3,4,5] == 5)
-
-
 
 -- main = do
 --   print(2 ^ 3 * 4 == (2 ^ 3) * 4)
