@@ -1,6 +1,146 @@
 -- runhashkell test01.hs
-main =
-    print "Hello, World!"
+
+
+
+-- 第1引数を無視し第2引数の値を返す関数const'を関数flipとconstで定義せよ
+-- const' = flip const
+--
+-- main = do
+--   -- (const id 0) 4492
+--   print $ const' 0 4492 == 4492
+--   print $ const' 'A' "Hello, world!" == "Hello, world!"
+--   print $ const' 'A' 999 == 999
+
+
+
+
+-- 3引数関数の第1引数と第3引数をいれかえる関数flip13を定義せよ
+
+-- func a b c = a * b + c
+-- flip13 f a b c = f c b a
+-- const' =
+--
+-- main = do
+--   print $ func 2 3 4 == 10
+--   print $ flip13 func 4 3 2 == 10
+--   print $ flip13 func 2 3 4 == 14
+--   print $ const' func 4 3 2 == 10
+--   print $ const' func 2 3 4 == 14
+
+-- 第1引数の値に第2引数の関数を適用する関数applyを定義せよ
+-- import Data.Char
+--
+-- main = do
+--   print $ (.) ord toLower 'A' == 97
+
+-- apply a f = f $ a
+--
+-- main = do
+--   print $ apply 2 succ == 3
+
+-- main = do
+--   print $ recip $ (3 + 5) / 2
+
+-- 第1引数を無視し第2引数の値を返す関数const'定義せよ
+-- const' :: a -> b -> b
+-- const' _ a = a
+-- const' = const id
+
+-- main = do
+--   -- (const id 0) 4492
+--   print $ const' 0 4492 == 4492
+--   print $ const' 'A' "Hello, world!" == "Hello, world!"
+--   print $ const' 'A' 999 == 999
+
+-- fromMaybe _ (Just x) = x
+-- fromMaybe d _ = d
+--
+-- maybe _ f (Jus   jjjt x) = f x
+-- maybe d _ _ = d
+
+-- fromMaybe a b = maybe a id b
+--
+-- main = do
+--   print $ fromMaybe 0 (Just 8) == 8
+--   print $ fromMaybe 0 Nothing == 0
+--   print $ fromMaybe ' ' (Just 'c') == 'c'
+--   print $ fromMaybe ' ' Nothing == ' '
+
+-- *Main Data.Char> :t id "hello"
+-- id "hello" :: [Char]
+
+-- maybe2 f (Just a) (Just b) = f(a) b
+-- maybe2 _ _ _ = Nothing
+
+-- main = do
+--   print $ maybe2 div (Just 6) (Just 2) == 3
+--   print $ maybe2 div 6 2 == Nothing
+
+-- 3の倍数なら3で割りそれ以外はそのままにする関数div3を定義せよ
+-- 関数mod、div、演算子(==)を使う
+
+-- div3 x
+--   | mod x 3 == 0 = div x 3
+--   | otherwise = x
+--
+-- main = do
+--   print $ div3 2 == 2
+--   print $ div3 3 == 1
+--   print $ div3 4 == 4
+--   print $ div3 5 == 5
+--   print $ div3 6 == 2
+
+-- notZero 0 = Nothing
+-- notZero x = Just x
+
+-- main = do
+--   print $ notZero 0 == Nothing
+--   print $ notZero 1 == Just 1
+
+-- friend (Just name) = name ++ " is my friend"
+-- friend _ = "I'm alone"
+--
+-- main = do
+--   print $ friend (Just "osada")
+--   print $ friend Nothing
+
+
+
+-- isLarge n = n > 100
+-- isLarge = (> 100)
+--
+-- main = do
+--   print $ isLarge 99 == False
+--   print $ isLarge 101 == True
+
+-- selling /+/ tax = selling + ceiling(selling * tax)
+-- -- selling /+/ tax = (div (selling * tax) 100) + selling
+-- main =
+--   -- print $ 100 /+/ 8 == 108
+--   print $ 100 /+/ 0.08 == 108
+
+-- tax selling = ceiling(selling * 1.08)
+-- tax = \selling -> ceiling(selling * 1.08)
+-- main =
+--   print $ tax 100 == 108
+
+-- third = \f n -> f(f(f n))
+-- main =
+--   print $ third pred 2
+
+-- double n = n * 2
+-- nary n a b = n * a + b
+--
+-- octal a b = nary 8 a b
+--
+-- main = do
+--   print $ nary 10 3 8 == 38
+--   print $ nary 8 2 1 == 17
+--   print $ nary 2 1 1 == 3
+--   print $ nary 16 3 4 == 52
+--
+--   print $ octal 2 1 == 17
+
 
 -- module Main where
 -- main::IO()
