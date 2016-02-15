@@ -1,6 +1,9 @@
 -- runhashkell test01.hs
 
-
+-- 3引数関数の3つの引数すべてに同じ関数を適用する関数on3を定義せよ
+on3 f a b c = (f a) + (f b) + (f c)
+main = do
+  print $ on3 (+ 2) 1 2 3 == 3 + 4 + 5
 
 -- 第1引数を無視し第2引数の値を返す関数const'を関数flipとconstで定義せよ
 -- const' = flip const
