@@ -1,9 +1,175 @@
 -- runhashkell test01.hs
 
--- 3引数関数の3つの引数すべてに同じ関数を適用する関数on3を定義せよ
-on3 f a b c = (f a) + (f b) + (f c)
+import System.Random
+import Control.Arrow
+
+points :: Int -> [(Double, Double)]
+points = uncurry zip . (randomRs (-1, 1) *** randomRs (-1, 1)) . split . mkStdGen
+
+inCircle :: (Double, Double) -> Bool
+inCircle (x, y) = x ^ 2 + y ^ 2 <= 1
+
+inCirclePoints :: Int -> Int -> [(Double, Double)]
+inCirclePoints g n = filter inCircle . take n $ points g
+
+guessPi :: Int -> Int -> Double
+guessPi g n = 4 * fromIntegral (length $ inCirclePoints g n) / fromIntegral n
+
 main = do
-  print $ on3 (+ 2) 1 2 3 == 3 + 4 + 5
+  print $ guessPi 9 100000
+  print $ guessPi 8 100000
+
+
+-- すべての正の立方数(整数の3乗となる数)のリストcubesを作成せよ
+-- cubesの先頭20要素を表示せよ
+
+-- cubes = map (^ 3) [1..]
+-- main = do
+--   print $ take 20 cubes
+
+
+-- 1からnまでの奇数を3倍した値すべての積を求める関数productOdd3を作成せよ
+-- productOdd3 n = product . map (* 3) $ filter odd [1..n]
+-- main = do
+--   print $ productOdd3 3 == (1 * 3) * (3 * 3)
+--   print $ productOdd3 5 == (1 * 3) * (3 * 3) * (5 * 3)
+
+-- 1から2 * n + 1までのすべての奇数の積を求める関数productOddsを作成せよ
+-- 関数oddは奇数であることを確認する関数だ
+
+-- productOdds n = product $ filter odd [1 .. 2 * n + 1]
+-- main = do
+--   print $ productOdds 2 == 1 * 3 * 5
+--   print $ productOdds 3 == 1 * 3 * 5 * 7
+--   print $ productOdds 4 == 1 * 3 * 5 * 7 * 9
+
+-- 1からnまでの積を求める関数productNを作成せよ
+-- 関数productはリストの要素の積を返す
+-- productN n = product [1..n]
+-- main = do
+--   print $ productN 5 == 5 * 4 * 3 * 2
+
+-- 第2引数と第3引数を第1引数で割った余りが等しいことを確認する関数congruentを作成せよ
+-- congruent 3 8 11は8も11も3で割った余りが2となり等しいのでTrue
+-- congruent 5 8 14は8を5で割った余りは3で14を5で割った余りは4なのでFalse
+-- aをbで割った余りをはa `mod` bで求められる
+-- aとbが等しいかどうかはa == bで確かめられる
+
+-- import Data.Function
+-- congruent x y z = on (==) (`mod` x) y z
+--
+-- uncurry3 :: (Integer -> Integer -> Integer -> Bool) -> (Integer, Integer, Integer) -> Bool
+-- uncurry3 f (x, y, z) = f x y z
+--
+-- main = do
+--   print $ congruent 3 8 11 == True
+--   print $ congruent 5 8 14 == False
+--   print $ uncurry3 congruent (3, 8, 11) == True
+
+-- 第1引数に値段を第2引数に税率をとり税込み価格を返す関数を作成せよ
+
+-- tax selling rate = (div (selling * rate) 100) + selling
+-- tax' :: (Integer, Integer) -> Integer
+-- tax' = uncurry tax
+--
+-- main = do
+--   print $ tax 100 8 == 108
+--   print $ tax' (100, 8) == 108
+
+-- 3整数タプルの要素が三角形の3辺になることを確認する関数triangleを作成せよ
+-- 全ての数が1以上であり
+-- どの数も他の2数の和よりも小さければ良い
+-- 演算子(>), 演算子(<), 演算子(&&)等が使える
+-- (>), (<)はそれぞれ「大なり」「小なり」を意味する
+-- (&&)は「かつ」という意味だ
+-- triangle (3, 5, 7)はTrueとなりtriangle (5, 7, 12)はFalseとなる
+
+-- triangle :: (Integer, Integer, Integer) -> Bool
+-- triangle (x, y, z)
+--   | x < 1 || y < 1 || z < 1 = False
+--   | x >= y + z || y >= x + z || z >= x + y = False
+--   | otherwise = True
+--
+-- triangle (x, y, z)
+--   = x > 0 && y > 0 && z > 0 &&
+--     x < y + z && y < x + z && z < x + y
+--
+-- curry3 :: ((Integer, Integer, Integer) -> Bool) -> Integer -> Integer -> Integer -> Bool
+-- curry3 f x y z = f (x, y, z)
+--
+-- main = do
+--   print $ triangle (0, 1, 2) == False
+--   print $ triangle (3, 5, 7) == True
+--   print $ triangle (5, 7, 12) == False
+--   print $ curry3 triangle 3 5 7 == True
+
+-- 年齢と公開可能かどうかのブール値のタプルをとり適切に文字列化する関数を作成せよ
+-- ブール値がTrueなら年齢を文字列化しFalseなら"secret"とする
+-- age :: (Integer, Bool) -> String
+-- age (a, bool)
+--   | bool = show a
+--   | otherwise = "secret"
+-- -- main = do
+-- --   print $ age (35, True) == "35"
+-- --   print $ age (35, False) == "secret"
+--
+-- --  上記関数を年齢(例えば39)だけに部分適用せよ
+-- --  ブール値をとり指定した年齢(39)または"secret"を表示する関数となる
+-- age39 = curry age 39
+-- main = do
+--   print $ age39 True == "39"
+--   print $ age39 False == "secret"
+
+-- introduction :: (String, Integer) -> String
+-- introduction (n, a) =
+--   "My name is " ++ n ++
+--   ". I'm " ++ show a ++ " years old."
+--
+-- main = do
+--   print $ introduction ("Yoshikuni Jujo", 35)
+
+-- 対話環境で文字'c'を文字コードに変換したものが偶数かどうかをチェックせよ
+
+-- import Data.Char
+-- main = do
+--   print $ even $ ord 'c'
+--   print $ (even . ord) 'c'
+
+-- half :: Double -> Double
+-- half = (/ 2)
+-- seven :: Integer
+-- seven = 7
+--
+-- main = do
+--   -- half seven
+--   print . half $ fromIntegral seven
+
+-- dist0 :: Double -> Double -> Double
+-- dist0 x y = sqrt $ x ^ 2 + y ^ 2
+--
+-- px, py :: Double
+-- px = 9.0
+-- py = 5.0
+--
+-- p :: (Double, Double)
+-- p = (9.0, 5.0)
+--
+-- dist0' :: (Double, Double) -> Double
+-- dist0' (x, y) = sqrt $ x ^ 2 + y ^ 2
+
+-- タプルで表現された2点間の距離を求める関数distを定義せよ
+
+-- dist :: (Double, Double) -> Double
+-- dist (x, y) = sqrt $ x ^ 2 + y ^ 2
+-- p :: (Double, Double)
+-- p = (9.0, 5.0)
+-- main = do
+--   print $ dist p == dist0 9.0 5.0
+
+-- 3引数関数の3つの引数すべてに同じ関数を適用する関数on3を定義せよ
+-- on3 f a b c = (f a) + (f b) + (f c)
+-- main = do
+--   print $ on3 (+ 2) 1 2 3 == 3 + 4 + 5
 
 -- 第1引数を無視し第2引数の値を返す関数const'を関数flipとconstで定義せよ
 -- const' = flip const
