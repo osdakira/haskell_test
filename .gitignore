@@ -1,4 +1,21 @@
-*
-!*.hs
-.#*.hs
-!.gitignore
+### https://raw.github.com/github/gitignore/02950ad8fa2fef265b0a31f4b30ea3a2c0de210e/haskell.gitignore
+
+dist
+dist-*
+cabal-dev
+*.o
+*.hi
+*.chi
+*.chs.h
+*.dyn_o
+*.dyn_hi
+.hpc
+.hsenv
+.cabal-sandbox/
+cabal.sandbox.config
+*.prof
+*.aux
+*.hp
+.stack-work/
+
+
