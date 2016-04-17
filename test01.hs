@@ -1,4 +1,146 @@
 -- runhashkell test01.hs
+import Data.Char
+import Text.Read
+
+-- Bool値と整数のタプルのリストをとってしたのルールで計算する関数を作成せよ
+-- 右結合
+-- 一番右の値つまり初期値は0
+-- Bool値がTrueならかけ算としFalseなら足し算とする
+-- [(False, 3), (True, 8), (False, 7)]ならば3 + (8 * (7 + 0))で59となる
+-- 1を生の再帰で解答したなら関数foldrを使って、関数foldrで解答したなら生の再帰を使って書き直せ
+
+f :: [(Bool, Integer)] -> Integer
+f [] = 0
+f (x : xs) = if fst x
+    then snd x * f xs
+    else snd x + f xs
+
+f' :: [(Bool, Integer)] -> Integer
+f' = foldr op 0
+
+main = do
+  print $ f [(False, 3), (True, 8), (False, 7)]
+  print $ f' [(False, 3), (True, 8), (False, 7)]
+
+-- operators :: [(String, Integer -> Integer -> Integer)]
+-- operators = [("+", (+)), ("-", (-)), ("*", (*)), ("/", div)]
+--
+-- polish :: [String] -> Maybe [Integer]
+-- polish [] = Just []
+-- polish (s : ss) = case lookup s operators of
+--     Just o -> case polish ss of
+--         Just (x : y : ns) -> Just $ x `o` y : ns
+--         _ -> Nothing
+--     _ -> case readMaybe s of
+--         Just n -> maybe Nothing (Just . (n :)) $ polish ss
+--         _ -> Nothing
+--
+-- main = do
+--    print $ polish ["+", "3", "8"]
+--    print $ polish ["*", "+", "1", "5", "+", "2", "3"]
+
+-- 関数myLengthを関数map, const, sumを使って定義せよ
+-- 値をすべて1に変換したあと総和をとる
+-- myLength :: [a] -> Integer
+-- myLength xs = sum (map (const 1) xs)
+--
+-- main = do
+--   print $ myLength []
+--   print $ myLength [1]
+--   print $ myLength [1,2]
+--   print $ myLength [1,2,3]
+
+-- リストの要素の最大値を返す関数myMaximumを作成せよ
+-- Integer型の値のリストを対象とする
+-- リストの値はすべて0以上とする
+-- 2つの値の大きいほうを返す関数maxを使う
+-- 空リストに対しては何を返せば良いか
+-- 要素をひとつ追加すると最大値はどうなるか
+
+-- myMaximum :: [Integer] -> Integer
+-- myMaximum [] = 0
+-- myMaximum (x:xs) = max x (myMaximum xs)
+--
+-- main = do
+--   print $ myMaximum []
+--   print $ myMaximum [0,1,2]
+--   print $ myMaximum [3,2,0]
+--   print $ myMaximum [3,2,4,5]
+
+-- 与えられたリストの要素が複数であることを確認する関数pluralを定義せよ
+-- 英語の「複数形」の基準にしたがい空リストはTrueとする
+
+-- plural :: [a] -> Bool
+-- plural [] = True
+-- plural (x:xs) = not (null xs)
+--
+-- main = do
+--   print $ plural [1]
+--   print $ plural []
+--   print $ plural [1,2]
+
+-- type Tree = [(Char, (Char, Char))]
+-- sampleTree :: Tree
+-- sampleTree = [('a', ('b', 'c')), ('b', ('d', 'e')), ('e', ('f', 'g'))]
+-- reachable :: Tree -> Char -> Char -> Bool
+-- reachable _ s e | s == e = True
+-- reachable t s e = case lookup s t of
+--   Nothing -> False
+--   Just (l, r) -> reachable t l e || reachable t r e
+
+-- 再帰を利用して0からnまでの和を求める関数sumNを作成せよ
+-- sumN 0は0である
+-- sumN nはsumN (n - 1)にnを足したものである
+
+-- sumN :: Integer -> Integer
+-- sumN 0 = 0
+-- sumN n = sumN(n - 1) + n
+--
+-- main = do
+--   print $ sumN 10
+--   print $ sumN 100
+
+-- 5で割った余りが0ならば5をそれ以外ならば余りの値を返す関数oneToFiveを作成せよ
+
+-- map (\x -> mod x 5) [0..10]
+
+-- MEMO: 分からない
+-- oneToFive :: Integer -> Integer
+-- oneToFive x = case mod x 5 of
+--   d | d == 0 -> 5
+--     | otherwise -> d
+--
+-- main = do
+--   print $ map oneToFive [0..10]
+--   print $ map (\x -> mod x 5) [0..10]
+
+-- diffRecip :: Double -> Double -> Maybe Double
+-- diffRecip x y = case x - y of
+--   0 -> Nothing
+--   d | d > 0 -> Just $ recip d
+--     | otherwise -> Just $ recip (- d)
+--
+-- main = do
+--   print $ diffRecip 4 2
+--   print $ diffRecip 3 9
+--   print $ diffRecip 1 1
+
+-- checkAnswer :: Char -> Maybe Bool
+-- checkAnswer c = case toLower c of
+--   'y' -> Just True
+--   'n' -> Just False
+--   _ -> Nothing
+--
+-- main = do
+--   print $ checkAnswer 'Y'
+--   print $ checkAnswer 'N'
+--   print $ checkAnswer 'A'
+
+-- z = let x = 3
+--         y = 5 in
+--         x * y
+-- main = do
+--   print $ z
 
 -- import System.Random
 -- import Control.Arrow
