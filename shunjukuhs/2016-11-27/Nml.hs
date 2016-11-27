@@ -40,12 +40,22 @@ tag f s = case span (/= '>') s of
 -- ENCODE
 
 fromNml :: Nml -> String
-fromNml = concatMap toString . toTokens
+fromNml = toString 0 . toTokens
 
-toString :: Token -> String
-toString (Open tg) = "<" ++ tg ++ ">"
-toString (Close tg) = "</" ++ tg ++ ">"
-toString (Text tx) = tx
+idt :: Int -> String -> String
+idt i = (replicate i '\t' ++)
+
+opn, cls :: String -> String
+opn = ('<' :) . (++ ">")
+cls = ("</" ++) . (++ ">")
+
+toString :: Int -> [Token] -> String
+toString i (Open tg : Text tx : Close tg' : ts) =
+  idt i $ opn tg ++ tx ++ cls tg' ++ "\n" ++ toString i ts
+toString i (Open tg : ts) = idt i $ opn tg ++ "\n" ++ toString (i + 1) ts
+toString i (Close tg : ts) = idt (i - 1) $ cls tg ++ "\n" ++ toString (i - 1) ts
+toString i (Text tx : ts) = idt i $ tx ++ "\n" ++ toString i ts
+toString _ _ = ""
 
 toTokens :: Nml -> [Token]
 toTokens (Node tx []) = [Text tx]
